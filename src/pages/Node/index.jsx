@@ -103,14 +103,10 @@ export default function NodeTest() {
 	const handleInsert = (item) => {
 		run({ Id: item.Id, name: item.name, age: item.age, sex: item.sex })
 	}
-	const handleTooltipClose = () => {
-		setPopOpen(false)
-	}
 
 	const handleDelete = (index) => {
 		console.log(index)
 		setPopOpen(true)
-		run1({ id: index })
 	}
 	const handleUpdate = (index) => {
 		console.log(index)
@@ -193,8 +189,8 @@ export default function NodeTest() {
 												<Popconfirm
 													title="确定删除吗"
 													onConfirm={() => {
+														run1({ id: item.Id })
 														setCurrent(current + 1)
-														run2({ id: record.Id })
 													}}
 													onCancel={cancel}
 													okText="Yes"
