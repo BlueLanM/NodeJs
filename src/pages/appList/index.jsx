@@ -134,7 +134,7 @@ export default function index() {
 					setOpen(true)
 				}}
 			>
-				添加人员
+				添加商品
 			</Button>
 			<Modal title="添加商品" open={open} onOk={onFinish} onCancel={handleCancel}>
 				<Form
