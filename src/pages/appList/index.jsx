@@ -21,6 +21,7 @@ export default function index() {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
+			message.success("增加成功")
 		},
 	})
 	const { run: run2 } = useRequest(deleteList, {

@@ -48,6 +48,7 @@ function handleDisconnection() {
 		}
 	})
 	conn.on("error", function (err) {
+		console.log(err)
 		logger.error("db error", err)
 		if (err.code === "PROTOCOL_CONNECTION_LOST") {
 			logger.error("db error执行重连:" + err.message)

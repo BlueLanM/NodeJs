@@ -22,7 +22,7 @@ export default function index({ isOpen = false, onOk, onClose, getUserInfo }) {
 	}
 
 	const handleChange = (e) => {
-		setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
+		setLoginInfo({ ...getUserInfo, [e.target.name]: e.target.value })
 
 		console.log(e.target.value)
 	}

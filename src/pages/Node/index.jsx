@@ -75,6 +75,7 @@ export default function NodeTest() {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
+			message.success("增加成功")
 		},
 	})
 	const { run: run2, data } = useRequest(getUser, {
@@ -89,12 +90,14 @@ export default function NodeTest() {
 		onSuccess: (res) => {
 			console.log(res.data)
 			setCurrent(current + 1)
+			message.success("删除成功")
 		},
 	})
 	const { run: run3 } = useRequest(updateUser, {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
+			message.success("修改成功")
 		},
 	})
 	const handleInsert = (item) => {
@@ -118,6 +121,7 @@ export default function NodeTest() {
 	}
 	const handleOk = (item) => {
 		console.log(item)
+
 		if (item.name === undefined || item.age === undefined || item.sex === undefined) {
 			alert("不能为空")
 		} else {
