@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title></title>
+		<script src="jquery.min.js"></script>
+	</head>
+
+	<body>
+		<button type="button" class="btn">按钮</button>
+		<div style="display: flex; width: 500px; align-items: center; justify-content: space-between">
+			<ul class="uli"></ul>
+			<div style="display: flex; width: 300px; margin-top: 20px">
+				<div style="display: flex; flex-direction: column; justify-content: center; margin-right: 20px">
+					<span>id:</span>
+					<span>名称:</span>
+					<span>价格:</span>
+					<span>数量:</span>
+				</div>
+				<div style="display: flex; flex-direction: column; justify-content: center">
+					<input type="text" id="ipt5" />
+					<input type="text" id="ipt6" />
+					<input type="text" id="ipt7" />
+					<input type="text" id="ipt8" />
+				</div>
+				<button type="button" class="btn3">提交</button>
+			</div>
+		</div>
+
+		<div style="display: flex; flex-direction: column; width: 300px; align-items: center; justify-content: space-between">
+			<div style="display: flex; width: 300px; margin-top: 20px">
+				<div style="display: flex; flex-direction: column; justify-content: center; margin-right: 20px">
+					<span>id:</span>
+					<span>姓名:</span>
+					<span>年龄:</span>
+					<span>性别:</span>
+				</div>
+				<div style="display: flex; flex-direction: column; justify-content: center">
+					<input type="text" id="ipt1" />
+					<input type="text" id="ipt2" />
+					<input type="text" id="ipt3" />
+					<input type="text" id="ipt4" />
+				</div>
+			</div>
+			<button type="button" class="btn2">提交</button>
+		</div>
+
+		<script type="text/javascript">
+			$.ajax({
+				type: "get",
+				url: "http://127.0.0.1:4000/data",
+
+				async: true,
+
+				success: function (res) {
+					console.log(res)
+
+					var str = ""
+					for (let i = 0; i < res.message.length; i++) {
+						str += `
+			                     <li>
+			                         <p>${res.message[i].name}</p>
+			                         <p>${res.message[i].age}</p>
+			                         <button onclick="handleClick(${res.message[i].Id})">删除</button>
+			                     </li>
+			                     `
+					}
+					$(".uli").html(str)
+				},
+			})
+			function handleClick(index) {
+				$.ajax({
+					type: "delete",
+					url: `http://127.0.0.1:4000/data/user/delete/${index}`,
+					params: {
+						id: index,
+					},
+					async: true,
+					success: function (res) {
+						alert(res.msg)
+						window.location.reload()
+					},
+				})
+			}
+			$(".btn").on("click", function () {
+				$.ajax({
+					type: "get",
+					url: "http://127.0.0.1:5173/data",
+
+					async: true,
+					success: function (res) {
+						console.log(res)
+					},
+				})
+			})
+			$(".btn2").on("click", function () {
+				$.ajax({
+					type: "post",
+					url: "http://127.0.0.1:4000/user",
+					data: {
+						id: $("#ipt1").val(),
+						name: $("#ipt2").val(),
+						age: $("#ipt3").val(),
+						sex: $("#ipt4").val(),
+					},
+					async: true,
+					success: function (res) {
+						$("#ipt1").val("")
+						$("#ipt2").val("")
+						$("#ipt3").val("")
+						$("#ipt4").val("")
+						console.log(res)
+					},
+				})
+			})
+			$(".btn3").on("click", function () {
+				$.ajax({
+					type: "post",
+					url: "http://127.0.0.1:4000/app_list",
+					data: {
+						id: $("#ipt5").val(),
+						name: $("#ipt6").val(),
+						price: $("#ipt7").val(),
+						number: $("#ipt8").val(),
+					},
+					async: true,
+					success: function (res) {
+						$("#ipt5").val("")
+						$("#ipt6").val("")
+						$("#ipt7").val("")
+						$("#ipt8").val("")
+						console.log(res)
+						alert(res.msg)
+						window.location.reload()
+					},
+				})
+			})
+		</script>
+	</body>
+</html>
