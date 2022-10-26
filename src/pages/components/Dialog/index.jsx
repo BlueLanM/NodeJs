@@ -48,10 +48,10 @@ export default function index({ isOpen = false, onOk, onClose }) {
 					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={() => onOk(loginInfo)}>
+					<Button autoFocus variant="outlined" onClick={() => onOk(loginInfo)}>
 						确定
 					</Button>
-					<Button onClick={() => onClose()} autoFocus>
+					<Button onClick={() => onClose()} autoFocus variant="outlined" color="error">
 						取消
 					</Button>
 				</DialogActions>

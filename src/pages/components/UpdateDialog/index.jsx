@@ -41,6 +41,7 @@ export default function index({ isOpen = false, onOk, onClose, getUserInfo }) {
 				<DialogActions>
 					<Button
 						autoFocus
+						variant="outlined"
 						onClick={() => {
 							onOk(loginInfo)
 							setLoginInfo("")
@@ -48,7 +49,7 @@ export default function index({ isOpen = false, onOk, onClose, getUserInfo }) {
 					>
 						确定
 					</Button>
-					<Button onClick={() => onClose()} autoFocus>
+					<Button onClick={() => onClose()} autoFocus variant="outlined" color="error">
 						取消
 					</Button>
 				</DialogActions>

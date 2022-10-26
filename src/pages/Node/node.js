@@ -129,11 +129,39 @@ app.delete("/data/user/delete/:id", (req, res) => {
 
 	console.log("接收", req.body)
 })
+app.delete("/data/list/delete/:id", (req, res) => {
+	const sqlStr = `delete from app_list where Id=${parseInt(req.params.id)}`
+	console.log(req.params.id)
+	conn.query(sqlStr, (err, results) => {
+		if (err) return res.json({ err_code: 1, message: "删除失败", affextedRow: 0 })
+		res.json({
+			err_code: 0,
+			msg: "删除成功",
+		})
+	})
+
+	console.log("接收", req.body)
+})
 
 app.post("/data/user/update", (req, res) => {
 	let users = req.body
 	const sqlStr = `UPDATE user SET name = '${users.name}', age = '${users.age}', sex = '${users.sex}' WHERE Id = '${users.Id}'`
 	console.log(users.Id)
+	conn.query(sqlStr, (err, results) => {
+		if (err) return res.json({ err_code: 1, message: "修改失败", affextedRow: 0 })
+
+		res.json({
+			err_code: 0,
+			msg: "修改成功",
+		})
+	})
+
+	console.log("接收", req.body)
+})
+app.post("/data/list/update", (req, res) => {
+	let lists = req.body
+	const sqlStr = `UPDATE app_list SET name = '${lists.name}', price = '${lists.price}', number = '${lists.number}' WHERE Id = '${lists.Id}'`
+	console.log(lists.Id)
 	conn.query(sqlStr, (err, results) => {
 		if (err) return res.json({ err_code: 1, message: "修改失败", affextedRow: 0 })
 
