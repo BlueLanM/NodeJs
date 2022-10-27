@@ -13,8 +13,11 @@ import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
 import Typography from "@mui/material/Typography"
 import Paper from "@mui/material/Paper"
-import Dialog from "../components/Dialog"
-import UpDialog from "../components/UpdateDialog"
+import DialogIn from "../components/Dialog"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
 import AppList from "../appList/index"
 import { message, Popconfirm } from "antd"
 // import $ from "jquery"
@@ -60,10 +63,13 @@ export default function NodeTest() {
 	})
 	const [value, setValue] = React.useState(0)
 
-	const handleChange = (event, newValue) => {
+	const handleChange = (e) => {
+		setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
+		console.log(e.target.value)
+	}
+	const handleOnChange = (event, newValue) => {
 		setValue(newValue)
 	}
-
 	// $.get("http://localhost:4000/data", function (data) {
 	// 	console.log(data)
 	// })
@@ -74,8 +80,13 @@ export default function NodeTest() {
 	const { run } = useRequest(addUser, {
 		manual: true,
 		onSuccess: (res) => {
-			console.log(res.data)
-			message.success("增加成功")
+			if (res.data.err_code === 0) {
+				console.log(res.data)
+				message.success(res.data.msg)
+			} else {
+				console.log(res.data)
+				message.error(res.data.message)
+			}
 		},
 	})
 	const { run: run2, data } = useRequest(getUser, {
@@ -90,14 +101,26 @@ export default function NodeTest() {
 		onSuccess: (res) => {
 			console.log(res.data)
 			setCurrent(current + 1)
-			message.success("删除成功")
+			if (res.data.err_code === 0) {
+				console.log(res.data)
+				message.success(res.data.msg)
+			} else {
+				console.log(res.data)
+				message.error(res.data.message)
+			}
 		},
 	})
 	const { run: run3 } = useRequest(updateUser, {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
-			message.success("修改成功")
+			if (res.data.err_code === 0) {
+				console.log(res.data)
+				message.success(res.data.msg)
+			} else {
+				console.log(res.data)
+				message.error(res.data.message)
+			}
 		},
 	})
 	const handleInsert = (item) => {
@@ -115,15 +138,11 @@ export default function NodeTest() {
 		setUpdate(true)
 		setUserInfo(index)
 	}
-	const handleOk = (item) => {
+	const onOk = (item) => {
 		console.log(item)
 
-		if (item.name === undefined || item.age === undefined || item.sex === undefined) {
-			alert("不能为空")
-		} else {
-			run3({ Id: id, name: item?.name, age: item?.age, sex: item?.sex })
-			setUpdate(false)
-		}
+		run3({ Id: id, name: item?.name, age: item?.age, sex: item?.sex })
+		setUpdate(false)
 	}
 	const cancel = (e) => {
 		message.error("取消删除")
@@ -139,7 +158,7 @@ export default function NodeTest() {
 		<div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
 			<Box sx={{ width: "50%" }}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-					<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+					<Tabs value={value} onChange={handleOnChange} aria-label="basic tabs example">
 						<Tab label="用户管理" {...a11yProps(0)} />
 						<Tab label="商品管理" {...a11yProps(1)} />
 					</Tabs>
@@ -157,7 +176,7 @@ export default function NodeTest() {
 								添加人员
 							</Button>
 						</div>
-						<Dialog
+						<DialogIn
 							isOpen={open}
 							onClose={() => handleClose()}
 							onOk={(item) => {
@@ -166,7 +185,32 @@ export default function NodeTest() {
 								setOpen(false)
 							}}
 						/>
-						<UpDialog isOpen={update} onClose={() => handleClose()} onOk={(item) => handleOk(item)} getUserInfo={userInfo} />
+						<Dialog open={update} onClose={handleClose}>
+							<DialogTitle id="responsive-dialog-title">修改</DialogTitle>
+							<br />
+							<DialogContent>
+								<Box sx={{ width: "400px", height: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
+									<TextField label="姓名" variant="outlined" name="name" onChange={(e) => handleChange(e)} />
+									<TextField label="年龄" variant="outlined" name="age" onChange={(e) => handleChange(e)} />
+									<TextField label="性别" variant="outlined" name="sex" onChange={(e) => handleChange(e)} />
+								</Box>
+							</DialogContent>
+							<DialogActions>
+								<Button
+									autoFocus
+									variant="outlined"
+									onClick={() => {
+										onOk(userInfo)
+										setUserInfo("")
+									}}
+								>
+									确定
+								</Button>
+								<Button onClick={() => handleClose()} autoFocus variant="outlined" color="error">
+									取消
+								</Button>
+							</DialogActions>
+						</Dialog>
 						<TableContainer component={Paper}>
 							<Table sx={{ minWidth: 700 }} aria-label="simple table">
 								<TableHead>

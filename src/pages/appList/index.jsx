@@ -21,21 +21,39 @@ export default function index() {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
-			message.success("增加成功")
+			if (res.data.err_code === 0) {
+				console.log(res.data)
+				message.success(res.data.msg)
+			} else {
+				console.log(res.data)
+				message.error(res.data.message)
+			}
 		},
 	})
 	const { run: run2 } = useRequest(deleteList, {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
-			message.success("删除成功")
+			if (res.data.err_code === 0) {
+				console.log(res.data)
+				message.success(res.data.msg)
+			} else {
+				console.log(res.data)
+				message.error(res.data.message)
+			}
 		},
 	})
 	const { run: run4 } = useRequest(updateList, {
 		manual: true,
 		onSuccess: (res) => {
 			console.log(res.data)
-			message.success("修改成功")
+			if (res.data.err_code === 0) {
+				console.log(res.data)
+				message.success(res.data.msg)
+			} else {
+				console.log(res.data)
+				message.error(res.data.message)
+			}
 		},
 	})
 	const cancel = (e) => {

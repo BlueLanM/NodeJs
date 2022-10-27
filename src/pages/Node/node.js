@@ -80,14 +80,14 @@ app.get("/data", (req, res) => {
 	const sqlStr = "select * from user"
 	conn.query(sqlStr, (err, results) => {
 		if (err) return res.json({ err_code: 1, message: "数据不存在", affextedRow: 0 })
-		res.json({ success_code: 200, message: results, affextedRow: results.affextedRow })
+		res.json({ err_code: 0, message: results, affextedRow: results.affextedRow })
 	})
 })
 app.get("/data/list", (req, res) => {
 	const sqlStr = "select * from app_list"
 	conn.query(sqlStr, (err, results) => {
 		if (err) return res.json({ err_code: 1, message: "查找失败", affextedRow: 0 })
-		res.json({ success_code: 200, message: results, affextedRow: results.affextedRow })
+		res.json({ err_code: 0, message: results, affextedRow: results.affextedRow })
 	})
 })
 
